@@ -21,3 +21,14 @@ services:
     # For better terminal interaction and graceful shutdown with Ctrl+C
     stdin_open: true
     tty: true
+  frontend:
+    build:
+      context: ./frontend
+      target: development
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - NODE_ENV=development

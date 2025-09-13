@@ -1,0 +1,7 @@
+# Ignore local dependencies
+node_modules
+
+# Ignore build output
+dist
+.env*
+npm-debug.log
