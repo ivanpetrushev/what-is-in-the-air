@@ -1,0 +1,45 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  //output   = "../generated/prisma"
+}
+
+model TransmitterType {
+  id           String        @id @default(nanoid(7))
+  name         String        @unique
+  icon         String?
+  transmitters Transmitter[]
+}
+
+model Transmitter {
+  id                String           @id @default(nanoid(7))
+  friendlyName      String
+  firstSeen         DateTime
+  lastSeen          DateTime
+  isIgnored         Boolean          @default(false)
+  latestPacket      Json
+  TransmitterType   TransmitterType? @relation(fields: [transmitterTypeId], references: [id])
+  transmitterTypeId String?
+  packets           Packet[]
+}
+
+model Packet {
+  id            String      @id @default(nanoid(7))
+  timestamp     DateTime
+  rawData       Json
+  transmitter   Transmitter @relation(fields: [transmitterId], references: [id])
+  transmitterId String
+}
+
+model Equipment {
+  id               String   @id @default(nanoid(7))
+  name             String
+  isIgnored        Boolean  @default(false)
+  isFavourite      Boolean  @default(false)
+  lastSeen         DateTime
+  watchdogInterval Int
+}
