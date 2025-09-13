@@ -1,0 +1,23 @@
+services:
+  backend:
+    build:
+      context: backend/
+      target: development
+      # dockerfile: Dockerfile.backend
+    
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+
+    ports:
+      - "3000:3000"
+
+    command: npm run start:dev
+
+    environment:
+      - NODE_ENV=development
+      # - DATABASE_URL=postgres://user:password@db:5432/mydatabase
+
+    # For better terminal interaction and graceful shutdown with Ctrl+C
+    stdin_open: true
+    tty: true
